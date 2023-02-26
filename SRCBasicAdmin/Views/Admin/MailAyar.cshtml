@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "MailAyar";
+}
+
+@section Baslik{ Mail Ayar }
+@section sitemap{Mail Ayar }
+@section title{Mail Ayar }
+@model SRCBasicAdmin.Models.MailAyar
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Mail Ayarları</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    @using (Html.BeginForm("MailAyar", "Admin", FormMethod.Post, new { @class = "form-horizontal", @id = "form_sample_1", @enctype = "multipart/form-data" }))
+            {
+        <div class="card-body">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Gönderici Mail</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    </div>
+                    <input class="form-control" type="email" placeholder="" name="GondericiMail" value="@Model.GondericiMail">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Mail Şifre</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Şifre" name="Sifre" value="@Model.Sifre">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Mail Port</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="" name="Port" value="@Model.Port">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Mail Host</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="" name="Host" value="@Model.Host">
+                </div>
+            </div>
+
+        </div>
+                        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Bilgileri Güncelle</button>
+        </div>
+    }
+</div>
+
+

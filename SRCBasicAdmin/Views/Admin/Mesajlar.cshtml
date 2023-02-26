@@ -1,0 +1,475 @@
+﻿@{
+    ViewBag.Title = "Mesajlar";
+}
+
+@section baslik{Mesajlar}
+@section sitemap{Mesajlar}
+@section title{Mesajlar}
+@model IEnumerable<SRCBasicAdmin.Models.Mesaj>
+@using SRCBasicAdmin.Models;
+@{
+    SRCBasicDB db = new SRCBasicDB();
+}
+<div class="card card-outline card-primarycard-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Mesajlar</h3>
+    </div>
+    @{
+        List<Mesaj> okunmadi = db.Mesaj.Where(x => x.Okundu == "Okunmadi").ToList();
+        List<Mesaj> okundu = db.Mesaj.Where(x => x.Okundu == "Okundu").ToList();
+        List<Mesaj> silindi = db.Mesaj.Where(x => x.Okundu == "Silindi").ToList();
+    }
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="card card-primary card-outline card-outline-tabs">
+            <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Okunmamış Mesajlar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Okunmuş Mesajlar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Silinmiş Mesajlar</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                    <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                        <table id="listele2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="%20">ID</th>
+                                    <th width="%25">Ad/Soyad</th>
+                                    <th width="%20">Konu</th>
+                                    <th width="%20">Mesaj</th>
+                                    <th width="%35">İşlem</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var a in okunmadi)
+                                {
+                                    <tr>
+                                        <td>@a.MID</td>
+                                        <td>@a.Ad</td>
+                                        <td>@a.Konu</td>
+                                        @if (a.Mesaj1 != null)
+                                        {
+                                            <td>
+                                                @if (a.Mesaj1.Length > 25)
+                                                {
+                                                    <p>
+                                                        @a.Mesaj1.Substring(0, 25)
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>
+                                                        @a.Mesaj1
+                                                    </p>
+                                                }
+                                            </td>
+                                        }
+
+                                        <td>
+                                            <div class="btn-group btn-block">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#mesajdetay-@a.MID"><i class="fa fa-search"></i> Oku</button>
+                                                <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Silindi" class="btn btn-danger"><i class="fas fa-trash"></i> Sil</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    //Mesaj Detay
+                                    <div class="modal fade bd-example-modal-lg" id="mesajdetay-@a.MID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Mesaj Detay</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderilme Tarihi</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Tarih</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderen Ad Soyad</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Ad</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderen Mail</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Mail</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Mesaj Durum</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Okundu</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-12">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Konu</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Konu</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-12">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Mesaj</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Mesaj1</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Çık</button>
+                                                    @if (a.Okundu == "Okunmadi")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okundu" class="btn btn-success">Okundu Olarak İşaretle</a>
+                                                    }
+                                                    else if (a.Okundu == "Okundu")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadı" class="btn btn-warning">Okunmadı Olarak İşaretle</a>
+
+                                                    }
+                                                    else if (a.Okundu == "Silindi")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-danger">Silinen Mesajı Geri Al</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th width="%20">ID</th>
+                                    <th width="%25">Ad/Soyad</th>
+                                    <th width="%20">Konu</th>
+                                    <th width="%20">Mesaj</th>
+                                    <th width="%35">İşlem</th>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                        <table id="listele3" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="%20">ID</th>
+                                    <th width="%25">Ad/Soyad</th>
+                                    <th width="%20">Konu</th>
+                                    <th width="%20">Mesaj</th>
+                                    <th width="%35">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in okundu)
+                                {
+                                    <tr>
+                                        <td>@a.MID</td>
+                                        <td>@a.Ad</td>
+                                        <td>@a.Konu</td>
+                                        @if (a.Mesaj1 != null)
+                                        {
+                                            <td>
+                                                @if (a.Mesaj1.Length > 25)
+                                                {
+                                                    <p>
+                                                        @a.Mesaj1.Substring(0, 25)
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>
+                                                        @a.Mesaj1
+                                                    </p>
+                                                }
+                                            </td>
+                                        }
+                                        <td>
+                                            <div class="btn-group btn-block">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#mesajdetay-@a.MID"><i class="fa fa-search"></i> Oku</button>
+                                                <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Silindi" class="btn btn-danger"><i class="fas fa-trash"></i> Sil</a>
+                                                <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-warning"><i class="fa fa-undo"></i> Okunmadı</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    //Mesaj Detay
+                                    <div class="modal fade bd-example-modal-lg" id="mesajdetay-@a.MID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Mesaj Detay</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderilme Tarihi</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Tarih</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderen Ad Soyad</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Ad</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderen Mail</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Mail</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Mesaj Durum</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Okundu</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-12">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Konu</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Konu</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-12">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Mesaj</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Mesaj1</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Çık</button>
+                                                    @if (a.Okundu == "Okunmadi")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okundu" class="btn btn-success">Okundu Olarak İşaretle</a>
+                                                    }
+                                                    else if (a.Okundu == "Okundu")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-warning">Okunmadı Olarak İşaretle</a>
+
+                                                    }
+                                                    else if (a.Okundu == "Silindi")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-danger">Silinen Mesajı Geri Al</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th width="%20">ID</th>
+                                    <th width="%25">Ad/Soyad</th>
+                                    <th width="%20">Konu</th>
+                                    <th width="%20">Mesaj</th>
+                                    <th width="%35">İşlem</th>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+                        <table id="listele1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="%20">ID</th>
+                                    <th width="%25">Ad/Soyad</th>
+                                    <th width="%20">Konu</th>
+                                    <th width="%20">Mesaj</th>
+                                    <th width="%35">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in silindi)
+                                {
+                                    <tr>
+                                        <td>@a.MID</td>
+                                        <td>@a.Ad</td>
+                                        <td>@a.Konu</td>
+                                        @if (a.Mesaj1 != null)
+                                        {
+                                            <td>
+                                                @if (a.Mesaj1.Length > 25)
+                                                {
+                                                    <p>
+                                                        @a.Mesaj1.Substring(0, 25)
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>
+                                                        @a.Mesaj1
+                                                    </p>
+                                                }
+                                            </td>
+                                        }
+                                        <td>
+                                            <div class="btn-group btn-block">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#mesajdetay-@a.MID"><i class="fa fa-search"></i> Oku</button>
+                                                <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-warning"><i class="fa fa-undo"></i> Okunmadı</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    //Mesaj Detay
+                                    <div class="modal fade bd-example-modal-lg" id="mesajdetay-@a.MID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Mesaj Detay</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderilme Tarihi</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Tarih</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderen Ad Soyad</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Ad</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Gönderen Mail</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Mail</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Mesaj Durum</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Okundu</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-12">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Konu</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Konu</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-12">
+                                                                <div class="info-box bg-light">
+                                                                    <div class="info-box-content">
+                                                                        <span class="info-box-text text-center text-muted">Mesaj</span>
+                                                                        <span class="info-box-number text-center text-muted mb-0">@a.Mesaj1</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Çık</button>
+                                                    @if (a.Okundu == "Okunmadi")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okundu" class="btn btn-success">Okundu Olarak İşaretle</a>
+                                                    }
+                                                    else if (a.Okundu == "Okundu")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-warning">Okunmadı Olarak İşaretle</a>
+
+                                                    }
+                                                    else if (a.Okundu == "Silindi")
+                                                    {
+                                                        <a href="/Admin/MesajDurum?MID=@a.MID&Durum=Okunmadi" class="btn btn-danger">Silinen Mesajı Geri Al</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th width="%20">ID</th>
+                                    <th width="%25">Ad/Soyad</th>
+                                    <th width="%20">Konu</th>
+                                    <th width="%20">Mesaj</th>
+                                    <th width="%35">İşlem</th>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+
+
+
+
+    </div>
+    <!-- /.card-body -->
+</div>

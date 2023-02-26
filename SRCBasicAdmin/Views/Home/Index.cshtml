@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@section title{Anasayfa}
+@using SRCBasicAdmin.Models;
+@model IEnumerable<SRCBasicAdmin.Models.Urun>
+@{
+    SRCBasicDB db = new SRCBasicDB();
+}
+<section class="home-slider owl-carousel">
+    <div class="slider-item" style="background-image:url(/images/bg_1.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-md-end align-items-center justify-content-end">
+                <div class="col-md-6 text p-4 ftco-animate">
+                    <h1 class="mb-3">SALTAN YAPI</h1>
+                    <span class="location d-block mb-3"><i class="icon-my_location"></i> Gayrimenkul Danışmanlığı Satım & Kiralama ofisi</span>
+                    <p>1987 'den beri Gelen Bilgi ve Tecrübemizle Tüm Gayrimenkullerinizin Alım,satımı ve Mutlak kar ortaklığı için...</p>
+                    <li class="slidertel"><a href="tel:+90216379 2003"><span class="icon-phone"></span> (0216) 379 20 03</a></li>
+                    <a href="#" class="btn-custom p-3 px-4 bg-primary">Hoşgeldiniz!<span class="icson-plus ml-1"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slider-item" style="background-image:url(/images/bg_2.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-md-end align-items-center justify-content-end">
+                <div class="col-md-6 text p-4 ftco-animate">
+                    <h1 class="mb-3">GAYRİMENKUL DANIŞMANLIĞI</h1>
+                    <span class="location d-block mb-3"><i class="icon-my_location"></i> Gayrimenkul Danışmanlığı Satım & Kiralama ofisi</span>
+                    <p>1987 'den beri Gelen Bilgi ve Tecrübemizle Tüm Gayrimenkullerinizin Alım,satımı ve Mutlak kar ortaklığı için...</p>
+                    <li class="slidertel"><a href="tel:+90216379 2003"><span class="icon-phone"></span> (0216) 379 20 03</a></li>
+                    <a href="#" class="btn-custom p-3 px-4 bg-primary">Hoşgeldiniz!<span class="icson-plus ml-1"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services py-4 d-block text-center">
+                    <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-pin"></span></div></div>
+                    <div class="media-body p-2 mt-2">
+                        <h3 class="heading mb-3">Gelin misafirimiz olun!</h3>
+                        <p>Ofisimizde sizi ağırlamaktan mutluluk duyacağımızdan şüpheniz olmasın.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <a href="~/kadro.html">
+                    <div class="media block-6 services py-4 d-block text-center">
+                        <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-detective"></span></div></div>
+                        <div class="media-body p-2 mt-2">
+                            <h3 class="heading mb-3">Firma Ekibimiz</h3>
+                            <p style="color:gray;">Yılların tecrubesi ile siz değerli müşterilerimize en ideal hizmeti sunuyoruz.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 d-flex align-sel Searchf-stretch ftco-animate">
+                <div class="media block-6 services py-4 d-block text-center">
+                    <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-house"></span></div></div>
+                    <div class="media-body p-2 mt-2">
+                        <h3 class="heading mb-3">Bize emanet edin!</h3>
+                        <p>Gayrimenkullerinizin satış veya kiralamalarınızda en hızlı çözüm ortağınızız!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services py-4 d-block text-center">
+                    <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-purse"></span></div></div>
+                    <div class="media-body p-2 mt-2">
+                        <h3 class="heading mb-3">Değer Kaybetmeyin!</h3>
+                        <p>Acil satışlar yapmanıza gerek kalmadan, mülkünüzü değerinde alıyor veya satıyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-properties">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading">Yeni İlanlar</span>
+                <h2 class="mb-4">Son Eklenenler</h2>
+            </div>
+        </div>
+        <div class="row">
+            @{
+                List<Urun> sonilan = db.Urun.Take(6).OrderByDescending(x => x.IlanID).ToList();
+            }
+            <div class="col-md-12">
+                <div class="properties-slider owl-carousel ftco-animate">
+                    @foreach (var s in sonilan.OrderByDescending(x => x.IlanID))
+                    {
+                        <div class="item">
+                            <div class="properties">
+                                <a href="/Home/IlanDetay?IlanID=@s.IlanID" class="img d-flex justify-content-center align-items-center" style="background-image: url(@s.KapakFoto);">
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <span class="icon-search2"></span>
+                                    </div>
+                                </a>
+                                <div class="text p-3">
+                                    @if (s.IlanTip == "Kiralık")
+                                    {
+                                        <span class="status rent">@s.IlanTip</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="status sale">@s.IlanTip</span>
+
+                                    }
+                                    <div class="d-flex">
+                                        <div class="one">
+                                            <h3><a href="/Home/IlanDetay?IlanID=@s.IlanID">@s.Adres</a></h3>
+                                            <p>@s.EmlakTip</p>
+                                        </div>
+                                        <div class="two">
+                                            <span class="price">@s.Fiyat ₺</span>
+                                        </div>
+                                    </div>
+                                    @if (s.IlanAciklama != null)
+                                    {
+                                        if (s.IlanAciklama.Length > 85)
+                                        {
+                                            <p>@s.IlanAciklama.Substring(0, 85)<span>...</span></p>
+                                        }
+                                        else
+                                        {
+                                            <p>@s.IlanAciklama</p>
+                                        }
+                                    }
+                                    <hr>
+                                    <p class="bottom-area d-flex">
+                                        <span><i class="flaticon-selection"></i> @s.mKareNet m²</span>
+                                        <span class="ml-auto"><i class="flaticon-bathtub"></i> @s.BanyoSayi</span>
+                                        <span><i class="flaticon-bed"></i> @s.OdaSayi</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

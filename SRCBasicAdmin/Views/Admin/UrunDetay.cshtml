@@ -1,0 +1,395 @@
+﻿
+@{
+    ViewBag.Title = "UrunDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using SRCBasicAdmin.Models;
+@section baslik{İlan Resim }
+@section sitemap{İlan Resim}
+@section title{İlan Resim }
+@model SRCBasicAdmin.Models.Urun
+@{
+    SRCBasicDB db = new SRCBasicDB();
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">İlan Resimleri</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#uResimEkle">Resim Ekle</button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                @{
+                    List<UrunFoto> r = db.UrunFoto.Where(x => x.IlanID == Model.IlanID).ToList();
+
+                    string s ="boş boş boş";
+                    if (Session["reshata"].ToString() != null)
+                    {
+                        s = Session["reshata"].ToString();
+                    }
+                }
+                <div class="row">
+                    @if (r.Count <= 0)
+                    {
+                        <span>Listelenecek Resim Yok</span>
+                    }
+                    else
+                    {
+                        foreach (var a in r)
+                        {
+                            <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                                <div class="card bg-light">
+                                    <div class="card-body pt-0">
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                <br />
+                                                <img src="@a.Foto" alt="" class="d-block w-100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="text-right">
+                                            <a href="/Admin/_uResimSil?FotoID=@a.FotoID" class="btn btn-sm btn-danger">
+                                                Sil
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                  
+                    }
+
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="card card-outline card-warning">
+    @using (Html.BeginForm("_UrunDuzenle", "Admin", FormMethod.Post, new { @class = "form-horizontal", @id = "form_sample_1", @enctype = "multipart/form-data" }))
+    {  <div class="card-header">
+        <h3 class="card-title">İlan Özellikleri</h3>
+
+      
+         /.card-tools 
+    </div>
+    <input type="text" style="display:none;" class="form-control" id="IlanID" name="IlanID" value="@Model.IlanID">
+        <div class="card-body">
+            <div class="col-12 col-sm-12">
+                <div class="info-box bg-light">
+                    <div class="info-box-content">
+
+                        <img class="d-block w-100" src="@Model.KapakFoto" alt="Second slide">
+
+                        <div class="form-group">
+                            <label for="customFile">İlan Kapak Resim:</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="attachment" id="attachment">
+                                @Html.EditorFor(model => model.KapakFoto)
+                                <label class="custom-file-label" for="customFile">Güncellemek İstediğiniz Resmi Seçiniz</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>İlan Tipi Seçiniz:</label>
+                <select class="form-control select2" name="IlanTip" id="select1" style="width: 100%;">
+                    @if (Model.IlanTip == "Kiralik")
+                        {
+                        <option selected="selected" value="Kiralik">Kiralık</option>
+
+                        <option value="Satilik">Satılık</option>
+                        }
+                        else
+                        {
+                        <option selected="selected" value="Satilik">Satılık</option>
+
+                        <option value="Kiralik">Kiralık</option>
+                        }
+
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label>İlan Başlığı Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Başlığı Giriniz" id="IlanBaslik" name="IlanBaslik" value="@Model.IlanBaslik">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Fiyat Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Fiyat Giriniz" id="Fiyat" name="Fiyat" value="@Model.Fiyat">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>İlan Açıklama Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <textarea type="text" class="form-control" placeholder="İlan Açıklama Giriniz" id="IlanAciklama" name="IlanAciklama">@Model.IlanAciklama</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Adres Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <textarea type="text" class="form-control" placeholder="İlan Adres Giriniz" id="Adres" name="Adres">@Model.Adres</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan İç Özellik Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <textarea type="text" class="form-control" placeholder="İlan İç Özellik Giriniz" id="IcOzellik" name="IcOzellik">@Model.IcOzellik</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Dış Özellik Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <textarea type="text" class="form-control" placeholder="İlan Dış Özellik Giriniz" id="DisOzellik" name="DisOzellik">@Model.DisOzellik</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Ulaşım & Muhit Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <textarea type="text" class="form-control" placeholder="İlan Ulaşım & Muhit Giriniz" id="UlasimMuhit" name="UlasimMuhit">@Model.UlasimMuhit</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Emlak Tip Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Emlak Tip Giriniz" id="EmlakTip" name="EmlakTip" value="@Model.EmlakTip">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan m² Brüt Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan m² Brüt Giriniz" id="mKareBrut" name="mKareBrut" value="@Model.mKareBrut">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan m² Net Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan m² Net Giriniz" id="mKareNet" name="mKareNet" value="@Model.mKareNet">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Oda Sayı Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Oda Sayı Giriniz" id="OdaSayi" name="OdaSayi" value="@Model.OdaSayi">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Bina Yaş Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Bina Yaş Giriniz" id="BinaYas" name="BinaYas" value="@Model.BinaYas">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Bulunduğu Kat Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Bulunduğu Kat Giriniz" id="BulunduKat" name="BulunduKat" value="@Model.BulunduKat">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Kat Sayı Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Kat Sayı Giriniz" id="KatSayi" name="KatSayi" value="@Model.KatSayi">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Isıtma Tipi Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Isıtma Tipi Giriniz" id="Isitma" name="Isitma" value="@Model.Isitma">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Banyo Sayı Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Banyo Sayı Giriniz" id="BanyoSayi" name="BanyoSayi" value="@Model.BanyoSayi">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Balkon Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Balkon Giriniz" id="Balkon" name="Balkon" value="@Model.Balkon">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Kullanım Durumu Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Kullanım Durumu Giriniz" id="KullanımDurum" name="KullanımDurum" value="@Model.KullanımDurum">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Site İçi Mi ?:</label>
+                <select class="form-control select2" name="SiteIci" id="select1" style="width: 100%;">
+                    @if (Model.SiteIci == "Evet")
+                        {
+                        <option value="Hayır">Hayır</option>
+                        <option selected="selected" value="Evet">Evet</option>
+
+                        }
+                        else
+                        {
+                        <option value="Evet">Evet</option>
+                        <option selected="selected" value="Hayır">Hayır</option>
+                        }
+
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label>İlan Aidat Tutarı Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Aidat Tutarı Giriniz" id="Aidat" name="Aidat" value="@Model.Aidat">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Kredi Durumu Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Kredi Durumu Giriniz" id="KrediDurum" name="KrediDurum" value="@Model.KrediDurum">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Tapu Durumu Giriniz:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="İlan Tapu Durumu Giriniz" id="TapuDurum" name="TapuDurum" value="@Model.TapuDurum">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>İlan Takas Varmı ?:</label>
+                <select class="form-control select2" name="Takas" id="select1" style="width: 100%;">
+                    @if (Model.Takas == "Evet")
+                        {
+                        <option value="Hayır">Hayır</option>
+                        <option selected="selected" value="Evet">Evet</option>
+
+                        }
+                        else
+                        {
+                        <option value="Evet">Evet</option>
+                        <option selected="selected" value="Hayır">Hayır</option>
+                        }
+
+                </select>
+            </div>
+
+
+        </div>
+
+
+    }
+        </div>
+</div>*@
+
+
+
+<div class="modal fade bd-example-modal-lg" id="uResimEkle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">İlan Resim Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>@using (Html.BeginForm("_uResimEkle", "Admin", FormMethod.Post, new { @class = "form-horizontal", @id = "form_sample_1", @enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="customFile">İlan Resim:</label>
+                        <div class="custom-file">
+                            <input type="file" multiple="multiple" class="custom-file-input" name="attachment" id="attachment">
+                      
+                            <label class="custom-file-label" for="customFile">Eklemek İstediğiniz Resmi Seçiniz</label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Çık</button>
+                    <button type="submit" class="btn btn-success">Ekle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

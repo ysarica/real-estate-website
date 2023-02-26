@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Referans";
+}
+@using SRCBasicAdmin.Models;
+@section baslik{Referans}
+@section sitemap{Referans}
+@section title{Referans}
+@model IEnumerable<SRCBasicAdmin.Models.Referans>
+@{
+    SRCBasicDB db = new SRCBasicDB();
+}
+
+<div class="card card-outline card-primarycard-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Referans Liste & İşlem</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uKategoriEkle"><i class="fas fa-plus"></i> Referans Ekle</button>
+        </div>
+    </div>
+
+
+    <!-- /.card-header -->
+    <div class="card-body table-responsive">
+        <table id="listele1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th width="1%">ID</th>
+                    <th width="1%">Referans Adı</th>
+                    <th width="1%">Referans Açıklama</th>
+                    <th width="1%">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.RID</td>
+                        <td>@a.ReferansAdi</td>
+                        <td>@a.ReferansAciklama</td>
+                        <td>
+                            <div class="btn-group btn-block">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#uKategoriDuzenle-@a.RID"><i class="fas fa-pencil-alt"></i> Düzenle</button>
+                                <a href="/Admin/_ReferansSil?RID=@a.RID" class="btn btn-danger"><i class="fas fa-trash"></i> Sil</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--uKategori Düzenle Başlangıç-->
+                    <div class="modal fade bd-example-modal-lg" id="uKategoriDuzenle-@a.RID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Referans Düzenle @a.ReferansAdi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @using (Html.BeginForm("_ReferansDuzenle", "Admin", FormMethod.Post, new { @class = "form-horizontal", @id = "form_sample_1", @enctype = "multipart/form-data" }))
+                                {
+                                    <input type="text" style="display:none;" class="form-control" id="RID" name="RID" value="@a.RID">
+                                    <div class="modal-body">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label>Referans Adı:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="Referans Adı Giriniz..." id="ReferansAdi" name="ReferansAdi" value="@a.ReferansAdi">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Referans Açıklaması</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                                    </div>
+                                                    <textarea type="text" class="form-control" placeholder="Referans Açıklaması Giriniz" id="ReferansAciklama" name="ReferansAciklama">@a.ReferansAciklama</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Çık</button>
+                                        <button type="submit" class="btn btn-warning">Güncelle</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                       <!--uKategori Düzenle Son-->
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th width="1%">ID</th>
+                    <th width="1%">Referans Adı</th>
+                    <th width="1%">Referans Açıklama</th>
+                    <th width="1%">İşlem</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="uKategoriEkle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Referans Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("_ReferansEkle", "Admin", FormMethod.Post, new { @class = "form-horizontal", @id = "form_sample_1", @enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Kategori Adı:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Referans Adı Giriniz..." id="ReferansAdi" name="ReferansAdi">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Referans Açıklaması</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-check"></i></span>
+                                </div>
+                                <textarea type="text" class="form-control" placeholder="Referans Açıklaması Giriniz" id="ReferansAciklama" name="ReferansAciklama"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Çık</button>
+                    <button type="submit" class="btn btn-success">Ekle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

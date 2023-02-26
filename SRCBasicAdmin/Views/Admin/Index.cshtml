@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section baslik{Anasayfa}
+@section sitemap{#}
+@section title{Basic SRC}
+@using SRCBasicAdmin.Models;
+@{
+    SRCBasicDB db = new SRCBasicDB();
+}
+<div class="row">
+    @{ 
+        int toplamurun = db.Urun.Count();
+        int toplamref = db.Referans.Count();
+        int topsatilik = db.Urun.Where(x => x.IlanTip == "Satılık").Count();
+        int topkiralik = db.Urun.Where(x => x.IlanTip == "Kiralık").Count();
+        int mesajsayi = db.Mesaj.Where(x => x.Okundu == "Okunmadi").Count();
+    }
+   
+    <!-- ./col -->
+    <div class="col-lg-6 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@topkiralik</h3>
+
+                <p>Sistemdeki Toplam Kiralık İlan Sayısı</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/Admin/Urun" class="small-box-footer">İlanlara Git <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-6 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@topsatilik</h3>
+
+                <p>Sistemdeki Toplam Satılık İlan Sayısı</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="/Admin/Urun" class="small-box-footer">İlanlara Git <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-6 col-6">
+    <!-- small box -->
+    <div class="small-box bg-info">
+        <div class="inner">
+            <h3>@toplamurun</h3>
+
+            <p>Sistemdeki Toplam İlan Sayısı</p>
+        </div>
+        <div class="icon">
+            <i class="ion ion-bag"></i>
+        </div>
+        <a href="/Admin/Urun" class="small-box-footer">İlanlara Git <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+</div>
+    <!-- ./col -->
+    <div class="col-lg-6 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@mesajsayi</h3>
+
+                <p>Okunmamış Mesajlar</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-comments"></i>
+            </div>
+            <a href="/Admin/Mesajlar" class="small-box-footer">Mesajlara Git <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<div class="row">
+    <div class="col-md-4 col-sm-4 col-12">
+        <div class="info-box">
+            <a class="info-box-icon bg-info " href="/Admin/MailAyar/"><i class="ion ion-email"></i></a>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Mail Ayarları</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-4 col-sm-4 col-12">
+        <div class="info-box">
+            <a class="info-box-icon bg-success " href="/Admin/KullaniciAyar/"><i class="ion ion-person-add"></i></a>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Kullanıcı Ayarları</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-4 col-sm-4 col-12">
+        <div class="info-box">
+            <a class="info-box-icon bg-danger " href="/Giris/CikisYap"><i class="ion ion-close-circled"></i></a>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Çıkış Yap</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>

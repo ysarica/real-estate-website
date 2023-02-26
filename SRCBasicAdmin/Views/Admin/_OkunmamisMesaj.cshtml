@@ -1,0 +1,48 @@
+﻿
+@model IEnumerable<SRCBasicAdmin.Models.Mesaj>
+<!-- Messages Dropdown Menu -->
+<li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="nav-icon fa fa-comments"></i>
+        <span class="badge badge-danger navbar-badge">@ViewBag.msjsayi</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        @foreach (var i in Model)
+        {
+            <a href="/Admin/Mesajlar/" class="dropdown-item">
+                <!-- Message Start -->
+                <div class="media">
+                    <img src="~/Resim/profil.png" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                    <div class="media-body">
+                        <h3 class="dropdown-item-title">
+                            @i.Ad
+                            <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
+                        </h3>
+                        @if (i.Konu != null)
+                        {
+                          <p class="text-sm">
+
+                                @if (i.Konu.Length > 24)
+                                {
+                                    i.Konu.Substring(0, 23);<span>...</span>
+                                }
+                                else
+                                {
+                                    <span>@i.Konu</span>
+                                }
+                            </p>
+                        }
+                        
+                        <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i>@i.Tarih</p>
+                    </div>
+                </div>
+                <!-- Message End -->
+            </a>
+            <div class="dropdown-divider"></div>
+        }
+
+
+        <a href="/Admin/Mesajlar/" class="dropdown-item dropdown-footer">Tüm Mesajları Gör</a>
+    </div>
+</li>
+<!-- Notifications Dropdown Menu -->

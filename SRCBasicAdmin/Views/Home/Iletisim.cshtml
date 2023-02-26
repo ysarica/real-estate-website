@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Iletisim";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@section title{İletişim}
+
+<div class="hero-wrap" style="background-image: url('/images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/Home/Index/">Anasayfa</a></span> <span>İletişim</span></p>
+                <h1 class="mb-3 bread">İletişim</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="ftco-section contact-section bg-light">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="col-md-12 mb-4">
+                <h2 class="h3">İletişim Bilgileri</h2>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Adres:</span> Orta Mah. Nazır Sk. Özentaş İş Merkezi No: 14 Kat:2 D:32 Pendik / İSTANBUL</p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Telefon :</span> <a href="tel://+902163792003">0216 379 20 03 </a></p>
+                    <p><span>Fax :</span> <a href="tel://+902163792004">	0216 379 20 04 </a></p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Email:</span> <a href="saltanyapigayrimenkul@gmail.com">saltanyapigayrimenkul@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Website</span> <a href="#">saltanyapi.com</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="row block-9">
+            <div class="col-md-6 order-md-last d-flex">
+                @using (Html.BeginForm("_MesajGonder", "Home", FormMethod.Post, new { @class = "bg-white p-5 contact-form", @id = "form_sample_1", @enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <input type="text" class="form-control btn-block" placeholder="İsim Soyisim" id="Ad" name="Ad">
+                    </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Mail Adresiniz" id="Mail" name="Mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Konu" id="Konu" name="Konu">
+                        </div>
+                        <div class="form-group">
+                            <textarea cols="30" rows="7" class="form-control" placeholder="Mesajınız" id="Mesaj1" name="Mesaj1"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Gönder" class="btn btn-primary py-3 px-5">
+                        </div>
+
+                }
+            </div>
+
+
+
+            <div class="col-md-6 d-flex">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3016.2117143361556!2d29.238903185013374!3d40.889170542457926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cadb56dab8e77b%3A0x72a3b5924aba6bce!2zU2FsdGFuIMSwbsWfYWF0!5e0!3m2!1str!2str!4v1636640119607!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+            </div>
+        </div>
+    </div>
+</section>

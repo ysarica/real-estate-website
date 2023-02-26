@@ -1,0 +1,253 @@
+﻿
+@{
+    ViewBag.Title = "IlanDetay";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+@using SRCBasicAdmin.Models;
+@{
+    SRCBasicDB db = new SRCBasicDB();
+}
+@section title{İlan Detay}
+@model SRCBasicAdmin.Models.Urun
+<div class="hero-wrap" style="background-image: url('/images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="/Home/Index/">Anasayfa</a></span> <span class="mr-2"><a href="/Home/Ilanlar/">İlanlar</a></span> <span>İlan Detayları</span></p>
+                <h1 class="mb-3 bread">İlan Detayları</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-md-12 ftco-animate">
+                        <div class="single-slider owl-carousel">
+                            @{
+                                List<UrunFoto> uf = db.UrunFoto.Where(x => x.IlanID == Model.IlanID).ToList();
+                            }
+                            <div class="item">
+                                <div class="properties-img" style="background-image: url(@Model.KapakFoto);"></div>
+                            </div>
+                            @foreach (var a in uf)
+                            {
+                            <div class="item">
+                                <div class="properties-img" style="background-image: url(@a.Foto);"></div>
+                            </div>
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 Properties-single mt-4 mb-5 ftco-animate">
+                        <h2>@Model.IlanBaslik</h2>
+                        <p class="rate mb-4">
+                            <span class="loc"><a href="#"><i class="icon-map-marker"></i> @Model.Adres</a></span>
+                        </p>
+                        <p>@Model.IlanAciklama</p>
+                        <div class="d-md-flex mt-5 mb-5">
+                            <ul>
+                                <span class="loc"><a href="#"><i class="icon-circle"></i> İç Özellikler </a></span>
+                                <br>
+                                @Model.IcOzellik
+                            </ul>
+                            <ul>
+                                <span class="loc"><a href="#"><i class="icon-circle"></i> Dış Özellikler</a></span>
+                                <br> @Model.DisOzellik
+                            </ul>
+                        </div>
+                    </div>
+                    <ul>
+                        <span class="loc"><a href="#"><i class="icon-bus"></i> Ulaşım & Muhit</a></span>
+                        <br> @Model.UlasimMuhit </li>
+                    </ul>
+                    <div class="col-md-12 properties-single ftco-animate mb-5 mt-4">
+                        <h3 class="mb-4">İlan Videosu</h3>
+                        <div class="block-16">
+                            <figure>
+                                <img src="@Model.KapakFoto" alt="Image placeholder" class="img-fluid">
+                                <a href="https://www.youtube.com/watch?v=@Model.UrunVideo" class="play-button popup-vimeo"><span class="icon-play"></span></a>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 properties-single ftco-animate mb-5 mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form method="" class="star-">
+                                    <div class="-check">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 -single ftco-animate mb-5 mt-5">
+                        <div class="row">
+                            <div class="col-md-6 ftco-">
+                                <div class="">
+                                    <div class="icon d-flex justify--center align-items-center">
+                                        <span class="icon-"></span>
+                                    </div>
+                                    </a>
+                                    <div class=" p-3">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ftco-">
+                                <div class="properties">
+                                    <div class="icon d-flex justify-content- align-items-center">
+                                        <span class="icon-"></span>
+                                    </div>
+                                    </a>
+                                    <div class=" p-3">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- .col-md-8 -->
+            <div class="col-lg-4 sidebar ftco-animate">
+                <div class="sidebar-box">
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <div class="categories">
+                        <h3>			    							<span class="price">@Model.Fiyat TL</span></h3>
+                        <ul>
+                            <li><a href="#">İlan Tipi <span>@Model.IlanTip</span></a></li>
+                            <li><a href="#">İlan Numarası <span>@Model.IlanID</span></a></li>
+                            <li><a href="#">Emlak Tipi <span>@Model.EmlakTip</span></a></li>
+                            @if (Model.Engelli != "0")
+                            {
+                                <li><a href="#">Engelliye Uygun <span>@Model.Engelli</span></a></li>
+                            }
+                            @if (Model.mKareBrut != "0")
+                            {
+                                <li><a href="#">m² (Brüt)<span>@Model.mKareBrut</span></a></li>}
+                            @if (Model.mKareNet != "0")
+                            {
+                                <li><a href="#">m² (Net) <span>@Model.mKareNet</span></a></li>}
+                            @if (Model.OdaSayi != "0")
+                            {
+                                <li><a href="#">Oda Sayısı <span>@Model.OdaSayi</span></a></li> }
+                            @if (Model.BinaYas != "0")
+                            {
+                                <li><a href="#">Bina Yaşı <span>@Model.BinaYas</span></a></li> }
+                            @if (Model.BulunduKat != "0")
+                            {
+                                <li><a href="#">Bulunduğu Kat <span>@Model.BulunduKat</span></a></li> }
+                            @if (Model.KatSayi != "0")
+                            {
+                                <li><a href="#">Kat Sayısı <span>@Model.KatSayi</span></a></li> }
+                            @if (Model.Isitma != "0")
+                            {
+                                <li><a href="#">Isıtma <span>@Model.Isitma</span></a></li> }
+                            @if (Model.BanyoSayi != "0")
+                            {
+                                <li><a href="#">Banyo Sayısı <span>@Model.BanyoSayi</span></a></li> }
+                            @if (Model.Balkon != "0")
+                            {
+                                <li><a href="#">Balkon <span>@Model.Balkon</span></a></li> }
+                            @if (Model.KullanımDurum != "0")
+                            {
+                                <li><a href="#">Kullanım Durumu <span>@Model.KullanımDurum</span></a></li> }
+                            @if (Model.SiteIci != "0")
+                            {
+                                <li><a href="#">Site İçerisinde <span>@Model.SiteIci</span></a></li> }
+                            @if (Model.Aidat != "0")
+                            {
+                                <li><a href="#">Aidat <span>@Model.Aidat TL</span></a></li> }
+                            @if (Model.KrediDurum != "0")
+                            {
+                                <li><a href="#">Kredi Durumu <span>@Model.KrediDurum</span></a></li> }
+                            @if (Model.TapuDurum != "0")
+                            {
+                                <li><a href="#">Tapu Durumu<span>@Model.TapuDurum</span></a></li> }
+                            @if (Model.Takas != "0")
+                            {
+                                <li><a href="#">Takas <span>@Model.Takas</span></a></li> }
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3>Aramalar</h3>
+                    <div class="tagcloud">
+                        <a href="#" class="tag-cloud-link">Pendikte kiralık daire</a>
+                        <a href="#" class="tag-cloud-link">Kiralık daire</a>
+                        <a href="#" class="tag-cloud-link">Pendikte kiralık ev</a>
+                        <a href="#" class="tag-cloud-link">Pendikte satılık ev</a>
+                        <a href="#" class="tag-cloud-link">Satılık ev</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> <!-- .section -->
+
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2></h2>
+                    <p>İlanlar sayfamızı ziyaret edin..</p>
+                    <div class="row d-flex justify-content-center mt-5">
+                        <div class="col-md-8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<script>
+    var url = 'https://wati-integration-service.clare.ai/ShopifyWidget/shopifyWidget.js?52710';
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = url;
+    var options = {
+        "enabled": true,
+        "chatButtonSetting": {
+            "backgroundColor": "#4dc247",
+            "ctaText": "",
+            "borderRadius": "25",
+            "marginLeft": "0",
+            "marginBottom": "50",
+            "marginRight": "50",
+            "position": "left"
+        },
+        "brandSetting": {
+            "brandName": "SALTAN YAPI",
+            "brandSubTitle": "Merhaba Nasıl Yardımcı Olabilirim ?",
+            "brandImg": "http://saltanyapi.com/images/logos.png",
+            "welcomeText": "Merhaba Size Nasıl Yardımcı Olabilirim?",
+            "messageText": "{{page_link}}  İlan İle İlgili Bir Sorum Var ",
+            "backgroundColor": "#0a5f54",
+            "ctaText": "GÖRÜŞMEYİ BAŞLAT",
+            "borderRadius": "25",
+            "autoShow": false,
+            "phoneNumber": "+905436958265"
+
+        }
+    };
+    s.onload = function () {
+        CreateWhatsappChatWidget(options);
+    };
+    var x = document.getElementsByTagName('script')[0];
+    x.parentNode.insertBefore(s, x);
+</script>
+
+

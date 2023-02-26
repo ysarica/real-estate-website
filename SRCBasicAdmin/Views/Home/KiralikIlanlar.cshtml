@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "KiralikIlanlar";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@model PagedList.IPagedList<SRCBasicAdmin.Models.Urun>
+
+
+<div class="hero-wrap" style="background-image: url('/images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/Home/Index/">Anasayfa</a></span> <span>Kiralık İlanlar</span></p>
+                <h1 class="mb-3 bread">İlanlar</h1>
+                <div class="btn-group">
+                    <a href="/Home/SatilikIlanlar" class="btn btn-info">Satılık İlanlar</a>
+                    <a href="/Home/Ilanlar" class="btn btn-info">Tüm İlanlar</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach (var a in Model.OrderByDescending(x => x.IlanID))
+            {
+                <div class="col-md-4 ftco-animate">
+                    <div class="properties">
+                        <a href="/Home/IlanDetay?IlanID=@a.IlanID" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(@a.KapakFoto);">
+                            <div class="icon d-flex justify-content-center align-items-center">
+                                <span class="icon-search2"></span>
+                            </div>
+                        </a>
+                        <div class="text p-3">
+                            @if (a.IlanTip == "Kiralık")
+                            {
+                                <span class="status rent">@a.IlanTip</span>
+
+                            }
+                            else
+                            {
+                                <span class="status sale">@a.IlanTip</span>
+
+                            }
+                            <div class="d-flex">
+                                <div class="one">
+                                    <h3><a href="/Home/IlanDetay?IlanID=@a.IlanID">@a.Adres</a></h3>
+                                    <p>@a.EmlakTip</p>
+                                </div>
+                                <div class="two">
+                                    <span class="price">@a.Fiyat TL</span>
+                                </div>
+                            </div>
+                            @if (a.IlanAciklama != null)
+                            {
+                                if (a.IlanAciklama.Length >= 85)
+                                {
+                                <p>@a.IlanAciklama.Substring(0, 85)<span>...</span></p>
+                                }
+                                else
+                                {
+                                <p>@a.IlanAciklama</p>
+                                }
+                            }
+                            <hr>
+                            <p class="bottom-area d-flex">
+                                <span><i class="flaticon-selection"></i> @a.mKareNet M</span>
+                                <span class="ml-auto"><i class="flaticon-bathtub"></i> @a.BanyoSayi</span>
+                                <span><i class="flaticon-bed"></i> @a.OdaSayi</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    @{int xsayfa = Convert.ToInt32(Request.QueryString["s"]);}
+                    <ul>
+                        @for (int i = 0; i < Convert.ToInt32(ViewBag.SayfaSayi); i++)
+                        {
+                            int sayfa = i + 1;
+                            if (xsayfa == sayfa)
+                            {
+                                <li class="active"><a href="/Home/KiralikIlanlar?s=@sayfa"><span>@sayfa</span></a></li>
+                            }
+                            else
+                            {
+                                <li><a href="/Home/KiralikIlanlar?s=@sayfa">@sayfa</a></li>
+                            }
+
+                        }
+                        @*<li><a href="#">&lt;</a></li>
+                            <li class="active"><span>1</span></li>
+
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">&gt;</a></li>*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
